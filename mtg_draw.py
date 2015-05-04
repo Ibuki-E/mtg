@@ -19,6 +19,8 @@ class deck: # {{{
         self.allDeck = x1
         self.maxLands = x2
         self.draw = x3
+        self.list_sumLands = []
+        self.list_before = []
     # setは標準入力から値を受け取り代入
     def set_allDeck(self): self.allDeck = input()
     def set_maxLands(self): self.maxLands = input()
@@ -40,12 +42,19 @@ class deck: # {{{
     def calc_prob(self):
         sumLands, x = 0, 0
         print
-        print "枚数, 確率"
-        while x < mydeck.draw + 1:
-            if x > mydeck.maxLands: break
-            if x != 0: print "%4d  %6.3f" % (x, (1 - sumLands) * 100)
-            sumLands += (comb(mydeck.maxLands, x) * comb(mydeck.allDeck - mydeck.maxLands, mydeck.draw - x) / comb(mydeck.allDeck,mydeck.draw))
+        print "枚数, 確率（n↑ ）, 確率（n）"
+        while x < self.draw + 1:
+            if x > self.maxLands: break
+            if x != 0: (self.list_sumLands).append(1 - sumLands)
+            sumLands += (comb(self.maxLands, x) * comb(self.allDeck - self.maxLands, self.draw - x) / comb(self.allDeck,self.draw))
+            if x != 0 and x != self.maxLands: self.list_before.append(self.list_sumLands[-1] - ( 1 - sumLands))
+            elif x == self.maxLands: self.list_before.append(self.list_sumLands[-1])
             x += 1
+            before_prob = 0
+    def display_prob(self):
+        for x in xrange(self.draw + 1):
+            if x > self.maxLands: break
+            if x != 0: print "%4d  %10.3f  %9.3f" % (x, self.list_sumLands[x - 1] * 100, self.list_before[x-1] * 100)
 # }}}
 # コマンドライン引数取得と引数の個数チェック
 argvs = sys.argv
@@ -63,3 +72,4 @@ mydeck.get_maxLands(argc)
 mydeck.get_draw(argc)
 # n枚以上引く確率を計算し表示
 mydeck.calc_prob()
+mydeck.display_prob()
