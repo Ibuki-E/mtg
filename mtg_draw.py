@@ -12,25 +12,54 @@
 
 # }}}
 from scipy.misc import comb
-print "デッキに入っている特定のカードをn枚以上引く確率を出力"
-print "デッキ枚数 =",
-deck = input()
-print "投入枚数   =",
-maxLands = input()
-print "引く枚数   =",
-draw = input()
-#print "何枚以上引きたい   =",
-#moreLand = input()
+import sys
 
-sumLands = 0
-x = 0
-print
-print "枚数, 確率"
-while x < draw + 1:
-    if x > maxLands: break
-#    if draw <= 7: print "   %d  %6.2f" % (x, (1 - sumLands) * 100)
-    if x != 0: print "%4d  %6.2f" % (x, (1 - sumLands) * 100)
-    sumLands += (comb(maxLands, x) * comb(deck - maxLands, draw - x) / comb(deck,draw))
-    x += 1
-#    if x == moreLand : first = (1 - sumLands) * 100
-#print "%d枚以上引ける確率 = %6.2f" % (moreLand, first)
+class deck: # {{{
+    def __init__(self, x1, x2, x3):
+        self.allDeck = x1
+        self.maxLands = x2
+        self.draw = x3
+    # setは標準入力から値を受け取り代入
+    def set_allDeck(self): self.allDeck = input()
+    def set_maxLands(self): self.maxLands = input()
+    def set_draw(self): self.draw = input()
+    # getは値を各値を出力
+    def get_allDeck(self, argc):
+        print "デッキ枚数 =",
+        if argc != 4: self.set_allDeck()
+        else: print self.allDeck
+    def get_maxLands(self, argc):
+        print "投入枚数   =",
+        if argc != 4: self.set_maxLands()
+        else: print self.maxLands
+    def get_draw(self, argc):
+        print "引く枚数   =",
+        if argc != 4: self.set_draw()
+        else: print self.draw
+    # n枚以上引く確率を計算し出力
+    def calc_prob(self):
+        sumLands, x = 0, 0
+        print
+        print "枚数, 確率"
+        while x < mydeck.draw + 1:
+            if x > mydeck.maxLands: break
+            if x != 0: print "%4d  %6.3f" % (x, (1 - sumLands) * 100)
+            sumLands += (comb(mydeck.maxLands, x) * comb(mydeck.allDeck - mydeck.maxLands, mydeck.draw - x) / comb(mydeck.allDeck,mydeck.draw))
+            x += 1
+# }}}
+# コマンドライン引数取得と引数の個数チェック
+argvs = sys.argv
+argc = len(argvs)
+# デッキ枚数，投入カード枚数，引く枚数をコマンドライン引数から取得
+if argc == 4: mydeck = deck(int(argvs[1]), int(argvs[2]), int(argvs[3]))
+else: mydeck = deck(60, 25, 7)
+
+print "デッキに入っている特定のカードをn枚以上引く確率を出力"
+# デッキ枚数表示，入力
+mydeck.get_allDeck(argc)
+# 投入カード枚数表示，入力
+mydeck.get_maxLands(argc)
+# 引く枚数表示，入力
+mydeck.get_draw(argc)
+# n枚以上引く確率を計算し表示
+mydeck.calc_prob()
