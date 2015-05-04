@@ -12,12 +12,12 @@
 
 # }}}
 from scipy.misc import comb
-print "デッキに入っている特定のカードをn枚引く確率を出力"
-print "デッキ枚数         =",
+print "デッキに入っている特定のカードをn枚以上引く確率を出力"
+print "デッキ枚数 =",
 deck = input()
-print "引きたいカード枚数 =",
+print "投入枚数   =",
 maxLands = input()
-print "引く枚数           =",
+print "引く枚数   =",
 draw = input()
 #print "何枚以上引きたい   =",
 #moreLand = input()
