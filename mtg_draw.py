@@ -38,19 +38,18 @@ class deck: # {{{
         print "引く枚数   =",
         if argc != 4: self.set_draw()
         else: print self.draw
-    # n枚以上引く確率を計算し出力
+    # n枚以上引く確率を計算
     def calc_prob(self):
         sumLands, x = 0, 0
         print
         print "枚数, 確率（n↑ ）, 確率（n）"
-        while x < self.draw + 1:
+        for x in xrange(self.draw + 1):
             if x > self.maxLands: break
             if x != 0: (self.list_sumLands).append(1 - sumLands)
             sumLands += (comb(self.maxLands, x) * comb(self.allDeck - self.maxLands, self.draw - x) / comb(self.allDeck,self.draw))
             if x != 0 and x != self.maxLands: self.list_before.append(self.list_sumLands[-1] - ( 1 - sumLands))
             elif x == self.maxLands: self.list_before.append(self.list_sumLands[-1])
-            x += 1
-            before_prob = 0
+    # 確率を出力
     def display_prob(self):
         for x in xrange(self.draw + 1):
             if x > self.maxLands: break
@@ -72,4 +71,5 @@ mydeck.get_maxLands(argc)
 mydeck.get_draw(argc)
 # n枚以上引く確率を計算し表示
 mydeck.calc_prob()
+# 確率を出力
 mydeck.display_prob()
