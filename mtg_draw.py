@@ -14,6 +14,8 @@
 from scipy.misc import comb
 import sys
 
+# デッキ枚数，投入カード枚数，引く枚数をコマンドライン引数から取得
+# コマンドライン引数が存在しないなら標準入力から取得
 class deck: # {{{
     def __init__(self, x1 = 60, x2 = 25, x3 = 7):
         self.allDeck = x1
@@ -64,9 +66,14 @@ class deck: # {{{
         for x in xrange(self.draw + 1):
             if x > self.maxLands: break
             if x != 0: print "%4d  %10.3f  %9.3f" % (x, self.list_sumLands[x - 1] * 100, self.list_before[x-1] * 100)
+    def do_draw(self):
+        print "デッキに入っている特定のカードをn枚以上引く確率を出力"
+        self.get_allDeck()
+        self.get_maxLands()
+        self.get_draw()
+        self.calc_prob()
+        self.display_prob()
 # }}}
-# デッキ枚数，投入カード枚数，引く枚数をコマンドライン引数から取得
-# コマンドライン引数が存在しないなら標準入力から取得
 mydeck = deck()
 print "デッキに入っている特定のカードをn枚以上引く確率を出力"
 # デッキ枚数表示，入力
