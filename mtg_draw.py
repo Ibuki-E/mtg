@@ -17,7 +17,7 @@ import sys
 # デッキ枚数，投入カード枚数，引く枚数をコマンドライン引数から取得
 # コマンドライン引数が存在しないなら標準入力から取得
 class deck: # {{{
-    def __init__(self, x1 = 60, x2 = 25, x3 = 7):
+    def __init__(self, x1 = 0, x2 = 0, x3 = 0):
         self.allDeck = x1
         self.maxLands = x2
         self.draw = x3
@@ -25,29 +25,42 @@ class deck: # {{{
         self.list_before = []
         self.argvs = sys.argv
         self.argc = len(self.argvs)
+        self.flag_input= 0
     # setは標準入力から値を受け取り代入
     def set_allDeck(self):
-        if self.argc == 4: self.allDeck = int(argv[1])
-        else: self.allDeck = input()
+        if self.allDeck != 0: pass
+        elif self.argc == 4: self.allDeck = int(self.argvs[1])
+        else:
+            self.allDeck = input()
+            self.flag_input = 1
     def set_maxLands(self):
-        if self.argc == 4: self.maxLands = int(argv[2])
-        else: self.maxLands = input()
+        if self.maxLands != 0: pass
+        elif self.argc == 4: self.maxLands = int(self.argvs[2])
+        else:
+            self.maxLands = input()
+            self.flag_input = 1
     def set_draw(self):
-        if self.argc == 4: self.draw = int(argv[3])
-        else: self.draw = input()
+        if self.draw != 0: pass
+        elif self.argc == 4: self.draw = int(self.argvs[3])
+        else:
+            self.draw = input()
+            self.flag_input = 1
     # getは値を各値を出力
     def get_allDeck(self):
         print "デッキ枚数 =",
         self.set_allDeck()
-        if self.argc == 4: print self.allDeck
+        if self.argc == 4 or self.flag_input == 0: print self.allDeck
+        self.flag_input = 0
     def get_maxLands(self):
         print "投入枚数   =",
         self.set_maxLands()
-        if self.argc == 4: print self.maxLands
+        if self.argc == 4 or self.flag_input == 0: print self.maxLands
+        self.flag_input = 0
     def get_draw(self):
         print "引く枚数   =",
         self.set_draw()
-        if self.argc == 4: print self.draw
+        if self.argc == 4 or self.flag_input == 0: print self.draw
+        self.flag_input = 0
     # n枚以上引く確率を計算
     def calc_prob(self):
         sumLands, x = 0, 0
@@ -74,6 +87,7 @@ class deck: # {{{
         self.calc_prob()
         self.display_prob()
 # }}}
+"""
 mydeck = deck()
 print "デッキに入っている特定のカードをn枚以上引く確率を出力"
 # デッキ枚数表示，入力
@@ -86,3 +100,4 @@ mydeck.get_draw()
 mydeck.calc_prob()
 # 確率を出力
 mydeck.display_prob()
+"""
